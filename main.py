@@ -4,6 +4,7 @@ import mesh
 import image
 import utils
 import matplotlib.pyplot as plt
+from PIL import Image
 
 
 def get_meshfile_from_image(filename):
@@ -36,8 +37,15 @@ def main():
 
     utils.save_files = args.save_files
 
+    width = 500
+    height = 496
+
+    #imr1 = im1.resize((width, height), Image.BILINEAR)
+    #imr2 = im2.resize((width, height), Image.BILINEAR)
+
     im1 = image.load_image(args.file1)
     #mesh1_name = get_meshfile_from_image(args.file1)
+    im1 = im1.resize((width, height), Image.BILINEAR)
     mesh1 = mesh.load_mesh(args.file1)
 
     if mesh1 is None or args.update_mesh:
@@ -48,6 +56,7 @@ def main():
 
     im2 = image.load_image(args.file2)
     #mesh2_name = get_meshfile_from_image(args.file2)
+    im2 = im2.resize((width, height), Image.BILINEAR)
     mesh2 = mesh.load_mesh(args.file2)
 
     if mesh2 is None or args.update_mesh:
