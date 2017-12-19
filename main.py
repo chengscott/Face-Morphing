@@ -18,15 +18,15 @@ def get_subject_from_file(filename):
 
 def main():
     parser = argparse.ArgumentParser(description='Morph two pictures together')
-    parser.add_argument('--image1', dest='file1', required=True, help='filename for first image')
-    parser.add_argument('--image2', dest='file2', required=True, help='filename for second image')
+    parser.add_argument('-i1', dest='file1', required=True, help='filename for first image')
+    parser.add_argument('-i2', dest='file2', required=True, help='filename for second image')
     parser.add_argument('--internal-points', dest='num_internal', default=5,
             type=int, help='number of interior points for the morph')
 
     parser.add_argument('--show-mesh', dest='show_mesh', action='store_const',
         const=True, default=False, help='Show the mesh on the plots')
 
-    parser.add_argument('--save-files', dest='save_files', action='store_const',
+    parser.add_argument('-s', dest='save_files', action='store_const',
         const=True, default=False, help='Save images of the plots/meshes')
 
     parser.add_argument('--update-mesh', dest='update_mesh', action='store_const',
@@ -37,24 +37,10 @@ def main():
     utils.save_files = args.save_files
 
     im1 = image.load_image(args.file1)
-    #mesh1_name = get_meshfile_from_image(args.file1)
     mesh1 = mesh.load_mesh(args.file1)
 
-    if mesh1 is None or args.update_mesh:
-        p = mesh1.points if mesh1 is not None else None
-        points = image.pick_points(im1, points=p)
-        mesh1 = mesh.delaunay_triangulation(points)
-        mesh.save_mesh(mesh1, mesh1_name)
-
     im2 = image.load_image(args.file2)
-    #mesh2_name = get_meshfile_from_image(args.file2)
     mesh2 = mesh.load_mesh(args.file2)
-
-    if mesh2 is None or args.update_mesh:
-        p = mesh2.points if mesh2 is not None else None
-        points = image.pick_points(im2, points=p)
-        mesh2 = mesh.delaunay_triangulation(points)
-        mesh.save_mesh(mesh2, mesh2_name)
 
     plt.close('all')
 
