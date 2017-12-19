@@ -1,14 +1,11 @@
-#def resize(path1, path2)
+from PIL import Image
 
+def resize(path, name):
+    im1 = Image.open(path)
 
-im1 = Image.open("lif.png")
-im2 = Image.open("imhs.jpg")
+    width = 500
+    height = 496
 
-width = 500
-height = 496
+    imr1 = im1.resize((width, height), Image.BILINEAR)
 
-imr1 = im1.resize((width, height), Image.BILINEAR)
-imr2 = im2.resize((width, height), Image.BILINEAR)
-
-imr1.save("lifr.jpg")
-imr2.save("imhsr.jpg")
+    imr1.save(name)
