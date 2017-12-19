@@ -46,11 +46,11 @@ def delaunay_triangulation(points):
     """
     return Delaunay(points)
 
-def load_mesh(filename):
+def load_mesh(filename, width, height):
     try:
 
         #points = np.loadtxt(filename)
-        points = getPoints.getPoints(filename);
+        points = getPoints.getPoints(filename, width, height);
 
         return delaunay_triangulation(points)
     except:

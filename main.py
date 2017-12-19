@@ -37,14 +37,16 @@ def main():
 
     utils.save_files = args.save_files
 
-    resize.resize(args.file1, '1.jpg')
-    im1 = image.load_image('1.jpg')
-    mesh1 = mesh.load_mesh('1.jpg')
-    print(mesh1)
+    width = 500
+    height = 496
 
-    resize.resize(args.file2, '2.jpg')
+    resize.resize(args.file1, '1.jpg', width, height)
+    im1 = image.load_image('1.jpg')
+    mesh1 = mesh.load_mesh('1.jpg', width, height)
+
+    resize.resize(args.file2, '2.jpg', width, height)
     im2 = image.load_image('2.jpg')
-    mesh2 = mesh.load_mesh('2.jpg')
+    mesh2 = mesh.load_mesh('2.jpg', width, height)
 
     plt.close('all')
 

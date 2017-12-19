@@ -4,8 +4,9 @@ import argparse
 import imutils
 import dlib
 import cv2
+import math
 
-def getPoints(path):
+def getPoints(path, width, height):
     # initialize dlib's face detector (HOG-based) and then create
     # the facial landmark predictor
     detector = dlib.get_frontal_face_detector()
@@ -13,7 +14,7 @@ def getPoints(path):
 
     # load the input image, resize it, and convert it to grayscale
     image = cv2.imread(path)
-    image = imutils.resize(image, width=500)
+    #image = imutils.resize(image, width=500)
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
     # detect faces in the grayscale image
@@ -55,4 +56,6 @@ def getPoints(path):
         output = face_utils.visualize_facial_landmarks(image, shape)
         #cv2.imshow("Image", output)
         cv2.waitKey(0)
+
+    points += [(0, 0), (math.floor(width/2), 0), (width-1, 0), (0, math.floor(height/2)), (math.floor(width/2), math.floor(height/2)), (0, height-1), (math.floor(width/2), height-1), (width-1, height-1)]
     return points
