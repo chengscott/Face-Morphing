@@ -57,5 +57,8 @@ def getPoints(path, width, height):
         #cv2.imshow("Image", output)
         cv2.waitKey(0)
 
-    points += [(0, 0), (math.floor(width/2), 0), (width-1, 0), (0, math.floor(height/2)), (math.floor(width/2), math.floor(height/2)), (0, height-1), (math.floor(width/2), height-1), (width-1, height-1)]
+    points += [(0, 0), (math.floor(width/3), 0), (math.floor(width*2/3), 0),
+               (width-1, 0), (0, math.floor(height/3)), (0, math.floor(height*2/3)),
+               (math.floor(width/3), math.floor(height/3)), (math.floor(width*2/3), math.floor(height*2/3)),
+               (0, height-1), (math.floor(width/3), height-1), (math.floor(width*2/3), height-1), (width-1, height-1)]
     return points
