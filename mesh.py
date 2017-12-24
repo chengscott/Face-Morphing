@@ -153,6 +153,7 @@ def warp_face(im, src_points, dst_mesh):
     for simplex_idx in range(dst_mesh.simplices.shape[0]):
         coords = positions[mesh_simplex_indices == simplex_idx]
         num = len(coords)
+
         out_coords = np.dot(affines[simplex_idx], np.vstack((coords.T, np.ones(num))))
 
         x,y = coords.T

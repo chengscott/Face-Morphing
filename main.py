@@ -6,13 +6,6 @@ import matplotlib.pyplot as plt
 import resize
 from matplotlib.image import AxesImage
 
-
-def get_meshfile_from_image(filename):
-    s = filename.split('.')
-    s[-1] = 'mesh'
-
-    return '.'.join(s)
-
 def get_subject_from_file(filename):
     s = filename.split('.')
     return s[-2]
@@ -57,14 +50,16 @@ if __name__ == "__main__":
 
     i_file = get_subject_from_file(args.file1) + '_' + get_subject_from_file(args.file2)
 
-    name_index = [str(i+1) for i in range(args.num_internal + 2)]
+    name_index = [str(args.num_internal + 1 - i) for i in range(args.num_internal + 2)]
+
 
     for interp in interpolations:
         i, m, a = interp['image'], interp['mesh'], interp['alpha']
         points = m.points if args.show is False else np.empty((0,2))
         a = "{:.2f}".format(a).replace('.','_')
         if args.show:
-            mesh.plot_mesh(args.save_mesh, m, filename='{}_{}_mesh.png'.format(i_file, a))
+            #mesh.plot_mesh(args.save_mesh, m, filename='{}_{}_mesh.png'.format(i_file, a))
+            mesh.plot_mesh(args.save_mesh, m, filename='mesh' + name_index[-1] + '.png')
         else:
             fig = plt.figure()
             fig_show = fig.add_subplot(111)
