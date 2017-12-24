@@ -59,6 +59,6 @@ def getPoints(path, width, height):
 
     points += [(0, 0), (math.floor(width/3), 0), (math.floor(width*2/3), 0),
                (width-1, 0), (0, math.floor(height/3)), (0, math.floor(height*2/3)),
-               (math.floor(width/3), math.floor(height/3)), (math.floor(width*2/3), math.floor(height*2/3)),
+               (width-1, math.floor(height/3)), (width-1, math.floor(height*2/3)),
                (0, height-1), (math.floor(width/3), height-1), (math.floor(width*2/3), height-1), (width-1, height-1)]
     return points
