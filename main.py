@@ -2,7 +2,6 @@ import numpy as np
 from scipy.misc import imread
 import argparse
 import mesh
-import utils
 import matplotlib.pyplot as plt
 import resize
 from matplotlib.image import AxesImage
@@ -40,8 +39,6 @@ if __name__ == "__main__":
         const=True, default=False, help='Show images of the plots/meshes')
 
     args = parser.parse_args()
-
-    utils.save_files = args.save_files
 
     width = 500
     height = 500

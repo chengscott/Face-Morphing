@@ -36,30 +36,15 @@ def plot_mesh(save, mesh, show_points = False, filename = None):
 
     return
 
-
-
-def delaunay_triangulation(points):
-    """
-        Returns the Delaunay triangulation of the given points
-    """
-    return Delaunay(points)
-
 def load_mesh(filename, width, height):
     try:
 
         #points = np.loadtxt(filename)
         points = getPoints.getPoints(filename, width, height);
 
-        return delaunay_triangulation(points)
+        return Delaunay(points)
     except:
         return None
-
-def save_mesh(mesh, filename):
-    """
-        Saves the mesh information in the given filename
-    """
-    points = mesh.points
-    np.savetxt(filename, points)
 
 def get_mesh_matching_points(mesh1, mesh2):
     """
@@ -70,7 +55,6 @@ def get_mesh_matching_points(mesh1, mesh2):
     """
 
     p1s = mesh1.points
-    p2s = mesh2.points
 
     matches = []
 
@@ -87,7 +71,7 @@ def get_mesh_matching_points(mesh1, mesh2):
 
     return matches
 
-def animate_image_interpolation(im1, im2, mesh1, mesh2, internal_points = 3):
+def animate_image_interpolation(im1, im2, mesh1, mesh2, internal_points):
     """
         Creates a set of image interpolations "animating" the morphing of one to the other
 
@@ -99,14 +83,6 @@ def animate_image_interpolation(im1, im2, mesh1, mesh2, internal_points = 3):
 
     """
 
-    if(im1.shape != im2.shape):
-        print('Images must be of the same size')
-        return
-
-    if(mesh1.points.shape != mesh2.points.shape):
-        print('Meshes must have the same number of points')
-        return
-
     alphas = np.linspace(1, 0, internal_points + 2, endpoint=True)
 
     matches = get_mesh_matching_points(mesh1, mesh2)
@@ -115,25 +91,13 @@ def animate_image_interpolation(im1, im2, mesh1, mesh2, internal_points = 3):
     dst_points = mesh2.points[matches[:,1]]
 
     for alpha in alphas:
-        mesh = interpolate_meshes(src_points, dst_points, alpha)
+        mesh = Delaunay(alpha*src_points + (1 - alpha)*dst_points)
         src_face = warp_face(im1, src_points, mesh)
         dst_face = warp_face(im2, dst_points, mesh)
         #print(alpha)
-
-        image = average_face(src_face, dst_face, alpha)
+        image = ((alpha * src_face) + ((1-alpha)*dst_face)).astype(np.uint8)
 
         yield {'mesh':mesh, 'image':image, 'alpha': alpha}
-
-
-def interpolate_meshes(src_points, dst_points, alpha):
-    """
-        Create the alpha-average of two meshes. Src and dst points should be pre-sorted so that features match each other
-    """
-    avg_point = alpha*src_points + (1 - alpha)*dst_points
-
-    mesh = delaunay_triangulation(avg_point)
-
-    return mesh
 
 def affine_transforms(simplices, src_points, dst_points):
     """
@@ -179,7 +143,6 @@ def warp_face(im, src_points, dst_mesh):
 
     image = np.zeros(im.shape, dtype=np.uint8)
 
-
     affines = np.array(list(affine_transforms(dst_mesh.simplices, src_points, dst_mesh.points)))
 
     xs, ys = np.mgrid[0:im.shape[0], 0:im.shape[1]]
@@ -198,7 +161,3 @@ def warp_face(im, src_points, dst_mesh):
 
 
     return image
-
-def average_face(src, dst, alpha):
-    im =  (alpha * src) + ((1-alpha)*dst)
-    return im.astype(np.uint8)
