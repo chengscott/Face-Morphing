@@ -6,7 +6,9 @@ pip install -r requirements.txt
 # Run
 ```
 python main.py -i1 <image1> -i2 <image2>
--s save files
+-sf save files
+-n number of num_internal, default 5
+-sm show mesh
 ```
 
 # Work flow

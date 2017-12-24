@@ -1,11 +1,9 @@
 import numpy as np
 from scipy.spatial import Delaunay
 import matplotlib.pyplot as plt
-import image as image_helper
-import utils
 import getPoints
 
-def plot_mesh(mesh, show_points = False, filename = None):
+def plot_mesh(save, mesh, show_points = False, filename = None):
     """
         Plots the given mesh
 
@@ -29,10 +27,10 @@ def plot_mesh(mesh, show_points = False, filename = None):
         for i,p in enumerate(ps):
             fig_plt.text(p[0] -.03, ymax - p[1] + .03, i)
 
-    if utils.save_files and filename is not None:
+    if filename is not None and save:
         plt.savefig(filename)
 
-    input("press enter to continue")
+    input("press any key to continue")
 
     plt.close(fig)
 
@@ -121,8 +119,6 @@ def animate_image_interpolation(im1, im2, mesh1, mesh2, internal_points = 3):
         src_face = warp_face(im1, src_points, mesh)
         dst_face = warp_face(im2, dst_points, mesh)
         #print(alpha)
-        #image_helper.pick_points(src_face)
-        #image_helper.pick_points(dst_face)
 
         image = average_face(src_face, dst_face, alpha)
 

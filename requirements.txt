@@ -6,3 +6,4 @@ opencv-python
 utils
 scipy
 matplotlib
+pillow
